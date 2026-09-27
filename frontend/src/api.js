@@ -1,4 +1,12 @@
-// Thin client for the ReleaseGuard API (proxied by Vite at /api).
+// Thin client for the ReleaseGuard API (proxied by Vite at /api in dev).
+// On a deployed (vercel.app) origin, talk to the local backend directly;
+// VITE_API_BASE can override it.
+const BASE = (
+  import.meta.env.VITE_API_BASE ||
+  (typeof location !== 'undefined' && location.hostname.endsWith('.vercel.app')
+    ? 'http://localhost:4000'
+    : '')
+).replace(/\/$/, '');
 
 async function json(res) {
   const body = await res.json().catch(() => ({}));
@@ -7,21 +15,21 @@ async function json(res) {
 }
 
 export const api = {
-  health: () => fetch('/api/health').then(json),
-  presets: () => fetch('/api/presets').then(json),
-  reviews: () => fetch('/api/reviews').then(json),
+  health: () => fetch(`${BASE}/api/health`).then(json),
+  presets: () => fetch(`${BASE}/api/presets`).then(json),
+  reviews: () => fetch(`${BASE}/api/reviews`).then(json),
 
   submit: (payload) =>
-    fetch('/api/reviews', {
+    fetch(`${BASE}/api/reviews`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload),
     }).then(json),
 
-  getReview: (id) => fetch(`/api/reviews/${id}`).then(json),
+  getReview: (id) => fetch(`${BASE}/api/reviews/${id}`).then(json),
 
   getReport: async (id) => {
-    const res = await fetch(`/api/reviews/${id}/report`);
+    const res = await fetch(`${BASE}/api/reviews/${id}/report`);
     if (res.status === 409) return null; // report not ready yet
     return json(res);
   },
