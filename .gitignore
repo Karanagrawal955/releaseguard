@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.rg-work/
+*.db
+*.db-wal
+*.db-shm
+
+# Sample repos carry their own seeded git histories (rebuilt by
+# sample-project/seed-git.ps1) — never add them as embedded repos.
+sample-project/flawed/.git/
+sample-project/clean/.git/

@@ -1,0 +1,13 @@
+{
+  "name": "releaseguard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ReleaseGuard — Release Readiness Report with institutional knowledge-risk checks (IBM Bob 2.0 Hackathon)",
+  "scripts": {
+    "backend": "npm --prefix backend start",
+    "frontend": "npm --prefix frontend start",
+    "workflow": "node workflow/run.mjs",
+    "workflow:clean": "node workflow/run.mjs clean",
+    "seed": "powershell -NoProfile -ExecutionPolicy Bypass -File sample-project/seed-git.ps1"
+  }
+}

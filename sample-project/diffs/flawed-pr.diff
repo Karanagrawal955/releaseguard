@@ -1,0 +1,34 @@
+diff --git a/src/format.js b/src/format.js
+index 69d4184..71c2597 100644
+--- a/src/format.js
++++ b/src/format.js
+@@ -10,7 +10,7 @@ function formatMoney(amount) {
+   if (typeof amount !== 'number' || Number.isNaN(amount)) {
+     throw new TypeError('amount must be a number');
+   }
+-  return Math.round(amount * 100) / 100;
++  return amount.toFixed(2);
+ }
+ 
+ module.exports = { formatMoney };
+diff --git a/src/pricing.js b/src/pricing.js
+index d214b1b..576901a 100644
+--- a/src/pricing.js
++++ b/src/pricing.js
+@@ -7,6 +7,7 @@ const DISCOUNTS = {
+   SUMMER10: 10,
+   WELCOME5: 5,
+   FRIEND20: 20,
++  GIFT5: 5,
+ };
+ 
+ /**
+@@ -35,7 +36,7 @@ function applyDiscount(total, code) {
+  */
+ function applyTax(total, rate, shipping) {
+   const base = typeof shipping === 'number' ? total : total;
+-  return base * rate;
++  return Math.round(base * rate * 100) / 100;
+ }
+ 
+ module.exports = { calculateTotal, applyDiscount, applyTax, DISCOUNTS };

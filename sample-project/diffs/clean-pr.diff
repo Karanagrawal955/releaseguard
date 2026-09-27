@@ -1,0 +1,36 @@
+diff --git a/README.md b/README.md
+index 8aec861..06ccbe7 100644
+--- a/README.md
++++ b/README.md
+@@ -19,6 +19,7 @@ A tiny order/pricing library used by the storefront checkout.
+   exceeds tax on the same order without shipping.
+ - `applyDiscount(total, code)` — applies a fixed percentage discount code
+   (e.g. `SUMMER10` → 10%) to the total, before tax.
++- `GIFT5` - 5% launch discount code (whole-number percentage, applied before tax).
+ - `formatMoney(amount)` — rounds the amount to two decimal places and returns
+   it **as a number** (e.g. `12.346` → `12.35`). Receipt math relies on this
+   returning a number, not a string.
+diff --git a/src/pricing.js b/src/pricing.js
+index 7d0ec1f..455a307 100644
+--- a/src/pricing.js
++++ b/src/pricing.js
+@@ -6,6 +6,7 @@ const DISCOUNTS = {
+   SUMMER10: 10,
+   WELCOME5: 5,
+   FRIEND20: 20,
++  GIFT5: 5,
+ };
+ 
+ /**
+diff --git a/tests/pricing.test.js b/tests/pricing.test.js
+index 648f08d..1d3687c 100644
+--- a/tests/pricing.test.js
++++ b/tests/pricing.test.js
+@@ -37,3 +37,7 @@ test('DISCOUNTS maps every code to a whole-number percentage', () => {
+   }
+   assert.strictEqual(DISCOUNTS.SUMMER10, 10);
+ });
++
++test('applyDiscount applies the GIFT5 code', () => {
++  assert.strictEqual(applyDiscount(100, 'GIFT5'), 95);
++});

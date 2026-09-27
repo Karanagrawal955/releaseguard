@@ -1,0 +1,9 @@
+{
+  "name": "acme-checkout-clean",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Clean sample project: documented, tested, owned.",
+  "scripts": {
+    "test": "node --test"
+  }
+}
